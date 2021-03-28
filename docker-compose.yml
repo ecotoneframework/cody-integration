@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+
+  iio-ic-react-http:
+    image: prooph/php:7.4-cli
+    volumes:
+      - .:/app
+      - ${CODY_SERVICE_DIR}:/service
+    user: ${UID}
+    ports:
+      - ${CODY_PORT}:8080
+    command: vendor/bin/php-watcher public/index.php

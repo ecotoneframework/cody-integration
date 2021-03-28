@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @see       https://github.com/ecotoneframework/cody-integration for the canonical source repository
+ * @license   https://github.com/ecotoneframework/cody-integration/blob/master/LICENSE.md MIT License
+ */
+
+declare(strict_types=1);
+
+use Ecotone\InspectioCody\Code\LocalFilesystem;
+use EventEngine\InspectioCody\CodyConfig;
+use Ecotone\InspectioCody\CommandHook;
+use Ecotone\InspectioCody\Config\PreConfiguredCommand;
+use Ecotone\InspectioCody\Context;
+
+$context = new Context(
+    // @TODO: change service name
+    'MyService',
+    '/service/src/Domain/Shared/ValueObject',
+    '/service/src/Infrastructure/Converter',
+    new LocalFilesystem(),
+    ['--standard=PSR12']
+);
+
+$commandConfig = new PreConfiguredCommand();
+$commandConfig->setBasePath('/service');
+$commandConfig->addComposerInfo('/service/composer.json');
+
+return new CodyConfig(
+    $context,
+    [
+//        CodyConfig::HOOK_ON_AGGREGATE => new AggregateHook(),
+        CodyConfig::HOOK_ON_COMMAND => new CommandHook($commandConfig),
+//        CodyConfig::HOOK_ON_EVENT => new EventHook(),
+//        CodyConfig::HOOK_ON_POLICY => new PolicyHook(),
+//        CodyConfig::HOOK_ON_DOCUMENT => new DocumentHook(),
+    ]
+);

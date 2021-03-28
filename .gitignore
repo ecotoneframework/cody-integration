@@ -1,0 +1,9 @@
+.env
+app.env
+codyconfig.php
+.phpunit.result.cache
+build/*
+vendor/
+.idea
+.php_cs.cache
+composer.lock
